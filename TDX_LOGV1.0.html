@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDX Logbook</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        form {
+            margin: 20px 0;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input, select {
+            padding: 5px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .export-buttons {
+            margin-top: 20px;
+        }
+
+        .reset-button {
+            background-color: red;
+            margin-left: 10px;
+        }
+
+        .reset-button:hover {
+            background-color: darkred;
+        }
+
+        .center-content {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .flag {
+            width: 200px;
+            height: auto;
+        }
+
+        .version-note {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        input, select {
+            font-size: 16px;
+        }
+
+        button {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TDX Logbook Kayıtları</h1>
+
+    <form id="callSignForm">
+        <label for="cagriYapan">Çağrı İşaretiniz:</label>
+        <input type="text" id="cagriYapan" placeholder="TA2ABC" required>
+    </form>
+
+    <form id="logForm">
+        <label for="tarih">Tarih:</label>
+        <input type="text" id="tarih" placeholder="16 Ekim 2024" required>
+        
+        <label for="cagriYapilan">TX:</label>
+        <input type="text" id="cagriYapilan" placeholder="TA2XYZ" required>
+        
+        <label for="frekans">Frekans:</label>
+        <input type="text" id="frekans" placeholder="14.250 MHz" required>
+        
+        <label for="yer">İstasyon Yeri:</label>
+        <input type="text" id="yer" placeholder="İstanbul" required>
+        
+        <label for="rapor">Sinyal Raporu:</label>
+        <input type="text" id="rapor" placeholder="59" required>
+        
+        <label for="bant">Bant Modu:</label>
+        <select id="bant">
+            <option value="160m">160m</option>
+            <option value="80m">80m</option>
+            <option value="40m">40m</option>
+            <option value="20m">20m</option>
+            <option value="15m">15m</option>
+            <option value="10m">10m</option>
+            <option value="6m">6m</option>
+            <option value="2m">2m</option>
+            <option value="70cm">70cm</option>
+        </select>
+
+        <button type="submit">Kaydı Ekle</button>
+        <button type="button" class="reset-button" onclick="resetLogs()">Kayıtları Sıfırla</button>
+    </form>
+
+    <table id="logTable">
+        <tr>
+            <th>Tarih ve Saat</th>
+            <th>RX</th>
+            <th>TX</th>
+            <th>Frekans</th>
+            <th>QTH</th>
+            <th>Sinyal Raporu</th>
+            <th>Bant Modu</th>
+        </tr>
+    </table>
+
+    <div class="export-buttons">
+        <button onclick="exportXML()">XML Olarak İndir</button>
+        <button onclick="exportADIF()">ADIF Olarak İndir</button>
+        <button onclick="exportCSV()">CVS Olarak İndir</button>
+    </div>
+
+    <div class="center-content">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg" alt="Türk Bayrağı" class="flag">
+        <div class="version-note">TDX_V.1.0 - TB3FLY</div>
+    </div>
+
+    <script>
+        function loadLogs() {
+            const logs = JSON.parse(localStorage.getItem('qsoLogs')) || [];
+            logs.forEach(log => addRowToTable(log));
+        }
+
+        function addRowToTable(log) {
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${log.tarihSaat}</td>
+                <td>${log.cagriYapan}</td>
+                <td>${log.cagriYapilan}</td>
+                <td>${log.frekans}</td>
+                <td>${log.yer}</td>
+                <td>${log.rapor}</td>
+                <td>${log.bant}</td>
+            `;
+            document.getElementById('logTable').appendChild(newRow);
+        }
+
+        document.getElementById('logForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const tarih = document.getElementById('tarih').value;
+            const cagriYapan = document.getElementById('cagriYapan').value;
+            const cagriYapilan = document.getElementById('cagriYapilan').value;
+            const frekans = document.getElementById('frekans').value;
+            const yer = document.getElementById('yer').value;
+            const rapor = document.getElementById('rapor').value;
+            const bant = document.getElementById('bant').value;
+            const tarihSaat = `${tarih} ${getCurrentTime()}`;
+
+            const newLog = {
+                tarihSaat: tarihSaat,
+                cagriYapan: cagriYapan,
+                cagriYapilan: cagriYapilan,
+                frekans: frekans,
+                yer: yer,
+                rapor: rapor,
+                bant: bant
+            };
+
+            const logs = JSON.parse(localStorage.getItem('qsoLogs')) || [];
+            logs.push(newLog);
+            localStorage.setItem('qsoLogs', JSON.stringify(logs));
+
+            addRowToTable(newLog);
+            document.getElementById('logForm').reset();
+        });
+
+        function getCurrentTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        window.onload = loadLogs;
+
+        function resetLogs() {
+            if (confirm("Tüm kayıtlar silinecek. Devam etmek istiyor musunuz?")) {
+                localStorage.removeItem('qsoLogs');
+                document.getElementById('logTable').innerHTML = `
+                    <tr>
+                        <th>Tarih ve Saat</th>
+                        <th>Çağrı Yapan</th>
+                        <th>Çağrı Yapılan</th>
+                        <th>Frekans</th>
+                        <th>İstasyon Yeri</th>
+                        <th>Sinyal Raporu</th>
+                        <th>Bant Modu</th>
+                    </tr>
+                `;
+            }
+        }
+
+        function exportXML() {
+            const logs = JSON.parse(localStorage.getItem('qsoLogs')) || [];
+            let xmlContent = '<?xml version="1.0" encoding="UTF-8"?>\n<callbook>\n';
+
+            logs.forEach(log => {
+                xmlContent += `  <log>\n`;
+                xmlContent += `    <tarih>${log.tarihSaat.split(' ')[0]}</tarih>\n`;
+                xmlContent += `    <cagriYapan>${log.cagriYapan}</cagriYapan>\n`;
+                xmlContent += `    <cagriYapilan>${log.cagriYapilan}</cagriYapilan>\n`;
+                xmlContent += `    <frekans>${log.frekans}</frekans>\n`;
+                xmlContent += `    <yer>${log.yer}</yer>\n`;
+                xmlContent += `    <rapor>${log.rapor}</rapor>\n`;
+                xmlContent += `    <bant>${log.bant}</bant>\n`;
+                xmlContent += `  </log>\n`;
+            });
+
+            xmlContent += '</callbook>';
+            downloadFile('callbook.xml', xmlContent);
+        }
+
+        function exportADIF() {
+            const logs = JSON.parse(localStorage.getItem('qsoLogs')) || [];
+            let adifContent = '';
+
+            logs.forEach(log => {
+                adifContent += `<QSO_DATE>${log.tarihSaat.split(' ')[0]}</QSO_DATE>\n`;
+                adifContent += `<CALL>${log.cagriYapilan}</CALL>\n`;
+                adifContent += `<MY_CALL>${log.cagriYapan}</MY_CALL>\n`;
+                adifContent += `<BAND>${log.bant}</BAND>\n`;
+                adifContent += `<FREQ>${log.frekans}</FREQ>\n`;
+                adifContent += `<RST_SENT>${log.rapor}</RST_SENT>\n`;
+                adifContent += `<QTH>${log.yer}</QTH>\n`;
+                adifContent += `</log>\n`;
+            });
+
+            downloadFile('callbook.adi', adifContent);
+        }
+
+        function exportCSV() {
+            const logs = JSON.parse(localStorage.getItem('qsoLogs')) || [];
+            let csvContent = 'Tarih ve Saat,Çağrı Yapan,Çağrı Yapılan,Frekans,İstasyon Yeri,Sinyal Raporu,Bant Modu\n';
+
+            logs.forEach(log => {
+                csvContent += `${log.tarihSaat},${log.cagriYapan},${log.cagriYapilan},${log.frekans},${log.yer},${log.rapor},${log.bant}\n`;
+            });
+
+            downloadFile('callbook.csv', csvContent);
+        }
+
+        function downloadFile(fileName, content) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+    </script>
+
+</body>
+</html>
