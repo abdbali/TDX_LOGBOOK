@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDX Logbook</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #ffffff; /* Light mode background */
+            color: #333; /* Light mode text color */
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #333; /* Dark mode background */
+            color: #ffffff; /* Dark mode text color */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .form-container, .logbook-container {
+            width: 48%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: #f9f9f9; /* Light mode container */
+            transition: background-color 0.3s;
+        }
+
+        body.dark-mode .form-container,
+        body.dark-mode .logbook-container {
+            background-color: #444; /* Dark mode container */
+            border-color: #555; /* Dark mode border */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 5px 0;
+        }
+
+        input, select {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        body.dark-mode input,
+        body.dark-mode select {
+            background-color: #555; /* Dark mode input */
+            border-color: #777; /* Dark mode border */
+            color: #fff; /* Dark mode text color */
+        }
+
+        button {
+            padding: 10px;
+            background-color: #6c757d; /* Grey color */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #5a6268; /* Darker grey */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        body.dark-mode th {
+            background-color: #555; /* Dark mode header */
+            color: #fff; /* Dark mode header text */
+        }
+
+        .center-content {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .flag {
+            width: 200px;
+            height: auto;
+        }
+
+        .map {
+            width: 100%;
+            height: 400px; /* Adjust the height as needed */
+            border: 1px solid #ccc;
+            margin-top: 20px;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg'); /* Placeholder image */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .pota-fields, .note-fields {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #007bff; /* Blue color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background-color: #0056b3; /* Darker blue */
+        }
+    </style>
+</head>
+<body>
+
+    <button class="theme-toggle" onclick="toggleTheme()">Aydınlık/Karanlık Mod</button>
+    <h1>TDX Logbook Kayıtları</h1>
+
+    <div class="container">
+        <div class="form-container">
+            <form id="callSignForm">
+                <label for="cagriYapan">Çağrı İşaretiniz:</label>
+                <input type="text" id="cagriYapan" placeholder="TA2ABC" required>
+            </form>
+
+            <form id="logForm">
+                <label for="tarih">Tarih:</label>
+                <input type="text" id="tarih" placeholder="16 Ekim 2024" required>
+                
+                <label for="cagriYapilan">TX:</label>
+                <input type="text" id="cagriYapilan" placeholder="TA2XYZ" required>
+                
+                <label for="frekans">Frekans:</label>
+                <input type="text" id="frekans" placeholder="14.250 MHz" required>
+                
+                <label for="yer">İstasyon Yeri:</label>
+                <input type="text" id="yer" placeholder="İstanbul" required>
+                
+                <label for="rapor">Sinyal Raporu:</label>
+                <input type="text" id="rapor" placeholder="59" required>
+                
+                <label for="bant">Bant Modu:</label>
+                <select id="bant">
+                    <option value="160m">160m</option>
+                    <option value="80m">80m</option>
+                    <option value="40m">40m</option>
+                    <option value="20m">20m</option>
+                    <option value="15m">15m</option>
+                    <option value="10m">10m</option>
+                    <option value="6m">6m</option>
+                    <option value="2m">2m</option>
+                    <option value="70cm">70cm</option>
+                    <option value="Digi">Digi</option>
+                    <option value="SSB">SSB</option>
+                    <option value="CW">CW</option>
+                    <option value="FT">FT</option>
+                </select>
+
+                <label for="ituZone">ITU Zone:</label>
+                <input type="text" id="ituZone" placeholder="ITU Zone" required>
+
+                <label for="cqZone">CQ Zone:</label>
+                <input type="text" id="cqZone" placeholder="CQ Zone" required>
+
+                <button type="button" onclick="togglePotaFields()">Pota Çalışması</button>
+                <div class="pota-fields" id="potaFields">
+                    <label for="parkKodu">Park Kodu:</label>
+                    <input type="text" id="parkKodu" placeholder="Park Kodu">
+                    
+                    <label for="potaDetaylar">Detaylar:</label>
+                    <input type="text" id="potaDetaylar" placeholder="Detaylar">
+                </div>
+
+                <button type="button" onclick="toggleNoteFields()">Notlar</button>
+                <div class="note-fields" id="noteFields">
+                    <label for="notlar">Notlar:</label>
+                    <input type="text" id="notlar" placeholder="Notlar">
+                </div>
+
+                <button type="submit">Kaydı Ekle</button>
+                <button type="button" class="reset-button" onclick="resetLogs()">Kayıtları Sıfırla</button>
+            </form>
+
+            <div>
+                <label for="fileUpload">Log Yükle:</label>
+                <input type="file" id="fileUpload" accept=".adi, .xml">
+                <button type="button" onclick="uploadLog()">Yükle</button>
+            </div>
+        </div>
+
+        <div class="logbook-container">
+            <table id="logTable">
+                <tr>
+                    <th>Tarih ve Saat</th>
+                    <th>RX</th>
+                    <th>TX</th>
+                    <th>Frekans</th>
+                    <th>QTH</th>
+                    <th>Sinyal Raporu</th>
+                    <th>Bant Modu</th>
+                    <th>ITU Zone</th>
+                    <th>CQ Zone</th>
+                    <th>Park Kodu</th>
+                    <th>Detaylar</th>
+                    <th>Notlar</th>
+                </tr>
+            </table>
+
+            <div class="center-content">
+                <button onclick="exportXML()">XML Olarak İndir</button>
+                <button onclick="exportADIF()">ADIF Olarak İndir</button>
+                <button onclick="exportCSV()">CSV Olarak İndir</button>
+                <button onclick="loadLogs()">Kayıt Listesine Ulaş</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="map"></div>
+    <div class="center-content">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg" alt="Turkish Flag" class="flag">
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function togglePotaFields() {
+            const potaFields = document.getElementById('potaFields');
+            potaFields.style.display = potaFields.style.display === 'none' || potaFields.style.display === '' ? 'block' : 'none';
+        }
+
+        function toggleNoteFields() {
+            const noteFields = document.getElementById('noteFields');
+            noteFields.style.display = noteFields.style.display === 'none' || noteFields.style.display === '' ? 'block' : 'none';
+        }
+
+        function addRowToTable(log) {
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${log.tarihSaat}</td>
+                <td>${log.cagriYapan}</td>
+                <td>${log.cagriYapilan}</td>
+                <td>${log.frekans}</td>
+                <td>${log.yer}</td>
+                <td>${log.rapor}</td>
+                <td>${log.bant}</td>
+                <td>${log.ituZone}</td>
+                <td>${log.cqZone}</td>
+                <td>${log.parkKodu || ''}</td>
+                <td>${log.potaDetaylar || ''}</td>
+                <td>${log.notlar || ''}</td>
+            `;
+            document.getElementById('logTable').appendChild(newRow);
+        }
+
+        document.getElementById('logForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const cagriYapan = document.getElementById('cagriYapan').value;
+            const cagriYapilan = document.getElementById('cagriYapilan').value;
+            const frekans = document.getElementById('frekans').value;
+            const yer = document.getElementById('yer').value;
+            const rapor = document.getElementById('rapor').value;
+            const bant = document.getElementById('bant').value;
+            const ituZone = document.getElementById('ituZone').value;
+            const cqZone = document.getElementById('cqZone').value;
+            const parkKodu = document.getElementById('parkKodu').value;
+            const potaDetaylar = document.getElementById('potaDetaylar').value;
+            const notlar = document.getElementById('notlar').value;
+
+            const logEntry = {
+                tarihSaat: new Date().toLocaleString(),
+                cagriYapan,
+                cagriYapilan,
+                frekans,
+                yer,
+                rapor,
+                bant,
+                ituZone,
+                cqZone,
+                parkKodu,
+                potaDetaylar,
+                notlar
+            };
+
+            let logs = JSON.parse(localStorage.getItem('qsoLogs')) || [];
+            logs.push(logEntry);
+            localStorage.setItem('qsoLogs', JSON.stringify(logs));
+
+            addRowToTable(logEntry);
+            document.getElementById('logForm').reset();
+        });
+
+        function resetLogs() {
+            localStorage.removeItem('qsoLogs');
+            document.getElementById('logTable').innerHTML = `
+                <tr>
+                    <th>Tarih ve Saat</th>
+                    <th>RX</th>
+                    <th>TX</th>
+                    <th>Frekans</th>
+                    <th>QTH</th>
+                    <th>Sinyal Raporu</th>
+                    <th>Bant Modu</th>
+                    <th>ITU Zone</th>
+                    <th>CQ Zone</th>
+                    <th>Park Kodu</th>
+                    <th>Detaylar</th>
+                    <th>Notlar</th>
+                </tr>
+            `;
+        }
+
+        function uploadLog() {
+            const fileInput = document.getElementById('fileUpload');
+            const file = fileInput.files[0];
+            // Implement file upload functionality
+        }
+
+        function exportXML() {
+            // XML export functionality to be implemented
+        }
+
+        function exportADIF() {
+            // ADIF export functionality to be implemented
+        }
+
+        function exportCSV() {
+            // CSV export functionality to be implemented
+        }
+    </script>
+</body>
+</html>
