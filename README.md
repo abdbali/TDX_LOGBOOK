@@ -26,3 +26,11 @@ Key Features:
 
 This app’s lightweight design ensures that it doesn’t slow down your device, providing POTA operators with the essential tools they need in the field, all while boasting efficient performance.
 
+25.10.2024 --- Güncellemeler
+
+.adi ve .xml doyaları için import özelliği eklendi.
+Notlar kısmı eklendi
+Pota log book eklentisi
+Yeni kayıt defteri eklentisi
+Bant modları iyileştirmesi
+Kullanıcı Dostu Arayüz
