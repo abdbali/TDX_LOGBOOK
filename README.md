@@ -27,6 +27,7 @@ Key Features:
 This app’s lightweight design ensures that it doesn’t slow down your device, providing POTA operators with the essential tools they need in the field, all while boasting efficient performance.
 
 **Version 0.1 GÜNCELLEMELERİ:**
+![image](https://github.com/user-attachments/assets/52e6a29f-3a78-4f11-8a2a-e9435cca2a64)
 
 
 
