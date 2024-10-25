@@ -26,7 +26,7 @@ Key Features:
 
 This app’s lightweight design ensures that it doesn’t slow down your device, providing POTA operators with the essential tools they need in the field, all while boasting efficient performance.
 
-Version 0.1 UPDATES,
+**Version 0.1 GÜNCELLEMELERİ:**
 
 
 
@@ -56,7 +56,7 @@ Notlar Kısmı:
 
 - Kullanıcılar, çağrı işaretini girdiğinde otomatik olarak ITU ve CQ bölge bilgilerini alabilirler. Bu, log kayıtlarının doğruluğunu artırır.
 
-İşte İngilizce çevirisi:
+**Version 0.1 UPDATES:**
 
 - **.adi and .xml File Import Feature**:
   
