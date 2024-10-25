@@ -26,11 +26,64 @@ Key Features:
 
 This app’s lightweight design ensures that it doesn’t slow down your device, providing POTA operators with the essential tools they need in the field, all while boasting efficient performance.
 
-25.10.2024 --- Güncellemeler
+Version 0.1 UPDATES,
 
-.adi ve .xml doyaları için import özelliği eklendi.
-Notlar kısmı eklendi
-Pota log book eklentisi
-Yeni kayıt defteri eklentisi
-Bant modları iyileştirmesi
-Kullanıcı Dostu Arayüz
+
+
+- **.adi ve .xml** Dosya İçe Aktarma Özelliği:
+
+- Kullanıcılar, log kayıtlarını .adi ve .xml dosyalarından içe aktarabilirler. Bu, mevcut kayıtların kolayca eklenmesini sağlar.
+Notlar Kısmı:
+
+- Her log kaydı için kullanıcıların ek notlar yazabileceği bir alan eklendi. Bu, özel bilgiler veya hatırlatmalar için faydalıdır.
+
+- **Pota Log Book Eklentisi:**
+
+- Pota çalışmaları için özel bir mod eklendi. Kullanıcılar, bu modda pota çalışmaları için gerekli bilgileri kolayca kaydedebilirler.
+
+- **Yeni Kayıt Defteri Eklentisi:**
+
+- Kullanıcılar, mevcut kayıtları sıfırlayarak yeni bir kayıt defteri oluşturabilirler. Bu, farklı etkinlikler veya dönemler için ayrı logbooklar tutmayı kolaylaştırır.
+
+- **Bant Modları İyileştirmesi:**
+
+- Bant modları için daha iyi bir seçim arayüzü sunuldu. Kullanıcılar, uygun bant modunu kolayca seçebilirler.
+
+- **Kullanıcı Dostu Arayüz:**
+
+- Uygulama arayüzü, kullanıcı deneyimini geliştirmek için sade ve modern bir tasarıma sahip. Bu sayede kullanıcılar kayıt eklerken veya yönetirken daha rahat bir deneyim yaşarlar.
+- **ITU ve CQ Zone Eklentisi:**
+
+- Kullanıcılar, çağrı işaretini girdiğinde otomatik olarak ITU ve CQ bölge bilgilerini alabilirler. Bu, log kayıtlarının doğruluğunu artırır.
+
+İşte İngilizce çevirisi:
+
+- **.adi and .xml File Import Feature**:
+  
+  - Users can import log entries from .adi and .xml files. This allows for easy addition of existing records.
+
+- **Notes Section**:
+  
+  - A section has been added for users to write additional notes for each log entry. This is useful for special information or reminders.
+
+- **Pota Log Book Add-on**:
+  
+  - A special mode has been added for pota operations. Users can easily record the necessary information for pota activities in this mode.
+
+- **New Logbook Add-on**:
+  
+  - Users can reset existing records to create a new logbook. This makes it easier to maintain separate logbooks for different events or periods.
+
+- **Band Modes Improvement**:
+  
+  - A better selection interface for band modes has been provided. Users can easily select the appropriate band mode.
+
+- **User-Friendly Interface**:
+  
+  - The application interface features a simple and modern design to enhance user experience. This allows users to have a more comfortable experience when adding or managing records.
+
+- **ITU and CQ Zone Feature**:
+  
+  - Users can automatically receive ITU and CQ zone information when entering their call signs. This enhances the accuracy of log entries. 
+
+If you need any further assistance, feel free to ask!
