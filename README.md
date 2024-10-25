@@ -56,6 +56,8 @@ Notlar Kısmı:
 
 - Kullanıcılar, çağrı işaretini girdiğinde otomatik olarak ITU ve CQ bölge bilgilerini alabilirler. Bu, log kayıtlarının doğruluğunu artırır.
 
+- **AYDINLIK / KARANLIK MOD EKLENDİ**
+
 **Version 0.1 UPDATES:**
 
 - **.adi and .xml File Import Feature**:
@@ -86,4 +88,5 @@ Notlar Kısmı:
   
   - Users can automatically receive ITU and CQ zone information when entering their call signs. This enhances the accuracy of log entries. 
 
-If you need any further assistance, feel free to ask!
+- **Added a button in the top right corner to toggle between light and dark modes.**
+
