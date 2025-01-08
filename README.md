@@ -91,3 +91,8 @@ Notlar Kısmı:
 
 - **Added a button in the top right corner to toggle between light and dark modes.**
 
+
+Yeni sürüm ön gösterim
+
+![image](https://github.com/user-attachments/assets/e86cad5a-bfc7-4031-bf93-581d7b968599)
+
